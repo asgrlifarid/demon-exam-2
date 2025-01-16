@@ -1,0 +1,47 @@
+main {
+  width: 100%;
+  height: 85vh;
+  background-image: url(https://preview.colorlib.com/theme/tasty/images/bg_3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  .alldiv {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    h2 {
+      font-size: 3rem;
+      color: white;
+      line-height: 86.4px;
+      color: rgb(255, 255, 255);
+      size: 72px;
+      font-weight: 400;
+      font-family: "Indie Flower", serif;
+    }
+    button {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+
+      background-color: transparent;    
+      height: 7vh;
+      width: 25vh;
+      border: 1px solid white;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      &:hover {
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+}
