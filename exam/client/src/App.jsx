@@ -6,6 +6,7 @@ import Home from './pages/Client/Home';
 import AdminLayout from './layout/AdminLayout';
 import AdminProducts from './pages/Admin/AdminProducts';
 import { AddProduct } from './pages/Admin/AddProduct/INDEX.JSX';
+import Wishlist from './pages/Client/Wishlist';
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
         <Routes>
         <Route path="/" element={<ClientLayout />}>
           <Route index element={<Home />} />
-          {/* <Route path="/wishlist" element={<Wishlist />} /> */}
+          <Route path="/wishlist" element={<Wishlist />} />
         
           {/* <Route path="/:id" element={<ProductDetail />} /> */}
         </Route>

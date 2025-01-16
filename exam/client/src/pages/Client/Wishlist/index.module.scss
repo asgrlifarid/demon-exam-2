@@ -1,0 +1,51 @@
+.firstDiv {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .card {
+      margin-top: 1rem;
+     width: 45%;
+      display: flex;
+      gap: 5rem;
+      border: 1px solid wheat;
+      padding: 1%;
+      box-shadow: 1px 1px 5px grey;
+      transition: 0.7s;
+      &:hover {
+        background-color: orange;
+      }
+      .left {
+        .imagee {
+          img {
+            border-radius: 50%;
+            margin-top: 10px;
+          }
+        }
+      }
+      .right {
+        .upper {
+          font-size: 18px;
+          font-weight: 400;
+          color: rgb(64, 64, 68);
+          line-height: 27px;
+        }
+        .lower {
+          font-size: 16px;
+          font-weight: 300;
+          color: rgb(139, 139, 146);
+          line-height: 28.8px;
+        }
+      }
+      .pricee {
+        p {
+          font-size: 30px;
+          font-weight: 300;
+          color: rgb(64, 64, 68);
+          line-height: 42px;
+        }
+      }
+    }
+  }
+  
