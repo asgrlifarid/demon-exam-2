@@ -2,8 +2,10 @@
 const ProductModel = require("../model/modelProduct")
 
 getProd = async (req, res) => {
+    const { sort } = req.query
+    const [ sortKey, sortOrder ] = sort?sort.split("-") : []
     try {
-        const products = await ProductModel.find({})
+        const products = await ProductModel.find({}).sort({[sortKey ] : sortOrder ==="ASC"?1:-1})
         res.status(200).json({ data: products, message: "success" })
     } catch (error) {
         res.status(500).send({ message: error.message });

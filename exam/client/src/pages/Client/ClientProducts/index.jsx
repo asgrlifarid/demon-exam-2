@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGetProductQuery } from "../../../redux/service/serviceApi";
 import styles from "./index.module.scss";
 import { CiHeart } from "react-icons/ci";
@@ -7,48 +7,92 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorites } from "../../../redux/features/wishlistSlice";
 
 const ClientProducts = () => {
-  const { data, isLoading, isError, refetch } = useGetProductQuery();
-  const wishlist = useSelector((state)=>state.wishlist);
+  const { data, isLoading, isError } = useGetProductQuery();
+  const wishlist = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
+  const [filtered, setFiltered] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); 
+
+  useEffect(() => {
+    if (data?.data) {
+      setFiltered(data.data);
+    }
+  }, [data]);
+
+  const handleChange = (e) => {
+    let sortedProds = [...filtered];
+
+    if (e.target.value === "asc") {
+      sortedProds.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (e.target.value === "desc") {
+      sortedProds.sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    setFiltered(sortedProds);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+
+  const filteredProducts = filtered.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className={styles.firstDiv}>
-      {isLoading && <h1>Loading ... </h1>}
-      {isError && <h1>You Have a Big PROBLEM ...! </h1>}
-      {data &&
-        data.data.map((p) => (
-          <div key={p._id} className={styles.card}>
-            <div className={styles.left}>
-              <div className={styles.imagee}>
-                <img src={p.imgUrl} alt={p.title} width={100} height={100} />
-              </div>
-            </div>
-            <div className={styles.right}>
-              <div className={styles.upper}>
-                {" "}
-                <h3>{p.title}</h3>
-              </div>
-              <div className={styles.lower}>
-                {" "}
-                <p>{p.ingredient}</p>
-              </div>
-            </div>
-            <div className={styles.pricee}>
-              <p>${p.price}</p>
+     
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        className={styles.searchInput}
+      />
 
-              <button
-                onClick={() => {
-                  dispatch(toggleFavorites(p));
-                }}
-              >
-                {wishlist?.items.find((q) => q._id === p._id) ? (
-                  <FaHeart />
-                ) : (
-                  <CiHeart />
-                )}
-              </button>
+
+      <select onChange={handleChange}>
+        <option value="default">DEFAULT</option>
+        <option value="asc">ASC</option>
+        <option value="desc">DESC</option>
+      </select>
+
+      {isLoading && <h1>Loading ...</h1>}
+      {isError && <h1>You Have a Big PROBLEM ...!</h1>}
+
+      {filteredProducts.map((p) => (
+        <div key={p._id} className={styles.card}>
+          <div className={styles.left}>
+            <div className={styles.imagee}>
+              <img src={p.imgUrl} alt={p.title} width={100} height={100} />
             </div>
           </div>
-        ))}
+          <div className={styles.right}>
+            <div className={styles.upper}>
+              <h3>{p.title}</h3>
+            </div>
+            <div className={styles.lower}>
+              <p>{p.ingredient}</p>
+            </div>
+          </div>
+          <div className={styles.pricee}>
+            <p>${p.price}</p>
+
+            <button
+              onClick={() => {
+                dispatch(toggleFavorites(p));
+              }}
+            >
+              {wishlist?.items.find((q) => q._id === p._id) ? (
+                <FaHeart />
+              ) : (
+                <CiHeart />
+              )}
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
