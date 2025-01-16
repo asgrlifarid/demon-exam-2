@@ -11,46 +11,50 @@ const ClientProducts = () => {
   const wishlist = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
   const [filtered, setFiltered] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
+
 
   useEffect(() => {
     if (data?.data) {
-      setFiltered(data.data);
+      setFiltered(data.data); 
     }
   }, [data]);
 
   const handleChange = (e) => {
-    let sortedProds = [...filtered];
+    const sortOrder = e.target.value;
+    let sortedProds = [...filtered]; 
 
-    if (e.target.value === "asc") {
-      sortedProds.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (e.target.value === "desc") {
-      sortedProds.sort((a, b) => b.title.localeCompare(a.title));
+    if (sortOrder === "asc") {
+      sortedProds.sort((a, b) => a.title.localeCompare(b.title)); 
+    } else if (sortOrder === "desc") {
+      sortedProds.sort((a, b) => b.title.localeCompare(a.title)); 
+    } else if (sortOrder === "default") {
+     
+      setFiltered(data.data);
+      return;
     }
 
-    setFiltered(sortedProds);
+    setFiltered(sortedProds); 
   };
+
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    setSearchQuery(e.target.value); 
   };
 
-
-  const filteredProducts = filtered.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = filtered.filter(
+    (product) => product.title.toLowerCase().includes(searchQuery.toLowerCase()) 
   );
 
   return (
     <div className={styles.firstDiv}>
-     
       <input
         type="text"
         placeholder="Search products..."
         value={searchQuery}
-        onChange={handleSearchChange}
+        onChange={handleSearchChange} 
         className={styles.searchInput}
       />
-
 
       <select onChange={handleChange}>
         <option value="default">DEFAULT</option>
@@ -81,7 +85,7 @@ const ClientProducts = () => {
 
             <button
               onClick={() => {
-                dispatch(toggleFavorites(p));
+                dispatch(toggleFavorites(p)); 
               }}
             >
               {wishlist?.items.find((q) => q._id === p._id) ? (
